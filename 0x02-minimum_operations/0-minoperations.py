@@ -1,65 +1,25 @@
 #!/usr/bin/python3
-"""Solves the lock boxes puzzle """
+""" Module for 0-minoperations"""
 
 
-def look_next_opened_box(opened_boxes):
-    """Looks for the next opened box
-    Args:
-        opened_boxes (dict): Dictionary which contains boxes already opened
-    Returns:
-        list: List with the keys contained in the opened box
+def minOperations(n):
     """
-    for index, box in opened_boxes.items():
-        if box.get('status') == 'opened':
-            box['status'] = 'opened/checked'
-            return box.get('keys')
-    return None
-
-
-def canUnlockAll(boxes):
-    """Check if all boxes can be opened
-    Args:
-        boxes (list): List which contain all the boxes with the keys
-    Returns:
-        bool: True if all boxes can be opened, otherwise, False
+    minOperations
+    Gets fewest # of operations needed to result in exactly n H characters
     """
-    if len(boxes) <= 1 or boxes == [[]]:
-        return True
-
-    aux = {}
-    while True:
-        if len(aux) == 0:
-            aux[0] = {
-                'status': 'opened',
-                'keys': boxes[0],
-            }
-        keys = look_next_opened_box(aux)
-        if keys:
-            for key in keys:
-                try:
-                    if aux.get(key) and aux.get(key).get('status') \
-                       == 'opened/checked':
-                        continue
-                    aux[key] = {
-                        'status': 'opened',
-                        'keys': boxes[key]
-                    }
-                except (KeyError, IndexError):
-                    continue
-        elif 'opened' in [box.get('status') for box in aux.values()]:
-            continue
-        elif len(aux) == len(boxes):
-            break
-        else:
-            return False
-
-    return len(aux) == len(boxes)
-
-
-def main():
-    """Entry point"""
-    canUnlockAll([[]])
-
-
-if __name__ == '__main__':
-    main()
+    # all outputs should be at least 2 char: (min, Copy All => Paste)
+    if (n < 2):
+        return 0
+    ops, root = 0, 2
+    while root <= n:
+        # if n evenly divides by root
+        if n % root == 0:
+            # total even-divisions by root = total operations
+            ops += root
+            # set n to the remainder
+            n = n / root
+            # reduce root to find remaining smaller vals that evenly-divide n
+            root -= 1
+        # increment root until it evenly-divides n
+        root += 1
+    return ops
