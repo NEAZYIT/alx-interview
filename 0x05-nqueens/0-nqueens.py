@@ -1,60 +1,44 @@
 #!/usr/bin/python3
-"""
-N Queens Solver
-
-This script solves the N Queens problem, which is the challenge of placing N non-attacking queens on an N×N chessboard.
-"""
-
+""" N queens """
 import sys
 
 
-class NQueensSolver:
-    def __init__(self, n):
-        self.n = n
-        self.solutions = []
+if len(sys.argv) > 2 or len(sys.argv) < 2:
+    print("Usage: nqueens N")
+    exit(1)
 
-    def solve(self):
-        """Solve the N Queens problem"""
-        self._solve_util(0, [], [], [])
+if not sys.argv[1].isdigit():
+    print("N must be a number")
+    exit(1)
 
-    def _solve_util(self, row, cols, diags1, diags2):
-        """Recursive utility function to solve the N Queens problem"""
-        if row == self.n:
-            self.solutions.append(cols[:])
-            return
+if int(sys.argv[1]) < 4:
+    print("N must be at least 4")
+    exit(1)
 
-        for col in range(self.n):
-            if col not in cols and row + col not in diags1 and row - col not in diags2:
-                cols.append(col)
-                diags1.append(row + col)
-                diags2.append(row - col)
-                self._solve_util(row + 1, cols, diags1, diags2)
-                cols.pop()
-                diags1.pop()
-                diags2.pop()
-
-    def print_solutions(self):
-        """Print all solutions"""
-        for solution in self.solutions:
-            print([[row, col] for row, col in enumerate(solution)])
+n = int(sys.argv[1])
 
 
-def main():
-    """Main function"""
-    if len(sys.argv) != 2:
-        print("Usage: nqueens N")
-        sys.exit(1)
-
-    n = int(sys.argv[1])
-
-    if n < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    solver = NQueensSolver(n)
-    solver.solve()
-    solver.print_solutions()
+def queens(n, i=0, a=[], b=[], c=[]):
+    """ find possible positions """
+    if i < n:
+        for j in range(n):
+            if j not in a and i + j not in b and i - j not in c:
+                yield from queens(n, i + 1, a + [j], b + [i + j], c + [i - j])
+    else:
+        yield a
 
 
-if __name__ == "__main__":
-    main()
+def solve(n):
+    """ solve """
+    k = []
+    i = 0
+    for solution in queens(n, 0):
+        for s in solution:
+            k.append([i, s])
+            i += 1
+        print(k)
+        k = []
+        i = 0
+
+
+solve(n)
