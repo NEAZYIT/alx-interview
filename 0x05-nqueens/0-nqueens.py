@@ -8,10 +8,12 @@ This script utilizes backtracking to find all possible solutions to the N Queens
 Usage: nqueens N
 - N represents the size of the chessboard and must be an integer greater or equal to 4.
 
-If the user called the program with the wrong number of arguments, print Usage: nqueens N, followed by a new line, and exit with the status 1.
+If the user called the program with the wrong number of arguments, print Usage: nqueens N, followed by
+a new line, and exit with the status 1.
 If N is not an integer, print N must be a number, followed by a new line, and exit with the status 1.
 If N is smaller than 4, print N must be at least 4, followed by a new line, and exit with the status 1.
-The program prints every possible solution to the problem, with one solution per line in the format: [[row1, col1], [row2, col2], ...].
+The program prints every possible solution to the problem, with one solution per line in the format:
+[[row1, col1], [row2, col2], ...].
 
 Read: Queen, Backtracking
 """
